@@ -123,6 +123,12 @@
 	description = "A larger variant of the fatoray: a large laser cannon with calorite fattening lens. Its shots are harmless, but fatten the target. This model has about 10 shots, but they fatten up by a lot."
 	admin_note = "Useful for kink antags. Generally harmless. Fattens people."
 
+/datum/opposing_force_equipment/antagonist_powers/feeder_ebow
+	name = "Feeder's Mini Energy Crossbow"
+	item_type = /obj/item/gun/energy/kinetic_accelerator/crossbow/feeder
+	description = "A modified version of the standard mini energy crossbow, designed to fatten up a target while incapacitating them."
+	admin_note = "Useful for kink antags. Generally harmless. Fattens people."
+
 /datum/opposing_force_equipment/antagonist_powers/calorite_whip
 	name = "Calorite Whip"
 	item_type = /obj/item/melee/curator_whip/fattening
