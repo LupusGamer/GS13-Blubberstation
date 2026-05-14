@@ -127,7 +127,7 @@
 	name = "Feeder's Mini Energy Crossbow"
 	item_type = /obj/item/gun/energy/kinetic_accelerator/crossbow/feeder
 	description = "A modified version of the standard mini energy crossbow, designed to fatten up a target while incapacitating them."
-	admin_note = "Useful for kink antags. Generally harmless. Fattens people."
+	admin_note = "Useful for kink antags. Fattens people and deals stun damage."
 
 /datum/opposing_force_equipment/antagonist_powers/calorite_whip
 	name = "Calorite Whip"
