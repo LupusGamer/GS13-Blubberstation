@@ -1,6 +1,3 @@
-#define COMSIG_LIVING_BURSTING_TRANSFORM_SIGNAL "signal_living_bursting_transformation" ///Signal that bursting is doing transforms to the player
-#define COMSIG_LIVING_BURSTING_BURST "signal_living_bursting_burst" ///Signal that the player has burst and is having transforms done
-
 #define BURSTING_FULLNESS_MIN_THRESHOLD FULLNESS_LEVEL_BLOATED ///Minimum fullness threshold for doing any fullness related messages or code
 #define BURSTING_FATNESS_MIN_THRESHOLD 0.4 ///Remaining percentage of the total fatness capacity needed before doing messages or code
 #define BURSTING_BUFFER_REDUCTION 150 ///How much additional fatness is removed past the threshold as a buffer
@@ -147,13 +144,22 @@
 		else
 			return BURSTING_PREF_DISABLED
 
-/mob/living/carbon/human
-	var/bursting_capacity_fullness = -1 ///How full is the player according to their bursting prefs
-	var/bursting_capacity_fatness = -1 ///How fat is the player according to their bursting pref
-	var/bursting_capacity_percentage = -1 ///Their highest capacity percentage value to determine if they should burst
+/** 
+ * Handles bursting for either eating too much or having too high of a BFI. It checks
+ * for preferences, handles bursting capacity, sound and messages. Also responsible for 
+ * triggering the bursting prompt. Returns a bool for whether or not the character 
+ * burst or is in the process of doing so.
+ * 
+ * The proc on carbon is for compatibility reasons; the real magic happens in the one
+ * defined a few lines below on `/mob/living/carbon/human`.
+ * 
+ * Returns TRUE if the character has burst or is in the process of bursting
+ * Returns FALSE otherwise
+ */
+/mob/living/carbon/proc/handle_bursting()
+	return FALSE
 
-///Handles bursting for either eating too much or too high of a BFI, returns a bool for whether or not the character burst or is in the process of doing so
-/mob/living/carbon/human/proc/handle_bursting()
+/mob/living/carbon/human/handle_bursting()
 
 	//Get prefs
 	var/fullness_bursting_pref = client?.prefs?.read_preference(/datum/preference/numeric/helplessness/glutton_fullness_before_burst)
@@ -209,10 +215,11 @@
 		if (client?.prefs?.read_preference(/datum/preference/toggle/glutton_enable_sounds)) //Check if the player wants sounds
 			//Compare the two capcity percentages to each other and play sounds if they're higher than a percentage of the other
 			if ((bursting_capacity_fullness > bursting_capacity_fatness * BURSTING_SOUND_RATIO)) //Do fullness sounds
-				playsound(src.loc, pick(BURSTING_GURGLE_SOUNDS), BURSTING_SOUND_VOLUME, 1, 1, 1.2, ignore_walls = FALSE)
+				playsound(src.loc, pick(BURSTING_GURGLE_SOUNDS), BURSTING_SOUND_VOLUME, 1, 1, 1.2, ignore_walls = FALSE, volume_preference = /datum/preference/numeric/volume/sound_bursting)
+
 
 			if ((bursting_capacity_fatness > bursting_capacity_fullness * BURSTING_SOUND_RATIO)) //Do fatness sounds
-				playsound(src.loc, pick(BURSTING_FAT_SLOSH_SOUNDS), BURSTING_SOUND_VOLUME, 1, 1, 1.2, ignore_walls = FALSE)
+				playsound(src.loc, pick(BURSTING_FAT_SLOSH_SOUNDS), BURSTING_SOUND_VOLUME, 1, 1, 1.2, ignore_walls = FALSE, volume_preference = /datum/preference/numeric/volume/sound_bursting)
 
 	if (!client?.prefs?.read_preference(/datum/preference/toggle/glutton_see_bursting))
 		return FALSE
@@ -270,7 +277,7 @@
 		abs(BURSTING_ANIMATE_SCALE_X * cos(lying_angle) + BURSTING_ANIMATE_SCALE_Y * sin(lying_angle)),
 		abs(BURSTING_ANIMATE_SCALE_Y * cos(lying_angle) + BURSTING_ANIMATE_SCALE_X * sin(lying_angle))
 	)
-	playsound(src.loc, BURSTING_CRESCENDO, BURSTING_SOUND_VOLUME, 1, 1, 1.2, ignore_walls = FALSE)
+	playsound(src.loc, BURSTING_CRESCENDO, BURSTING_SOUND_VOLUME, 1, 1, 1.2, ignore_walls = FALSE, volume_preference = /datum/preference/numeric/volume/sound_bursting)
 	animate(src, time = BURSTING_ANIMATE_TIME SECONDS, transform = transform * scale_transform, easing = SINE_EASING, flags = ANIMATION_PARALLEL)
 	Stun(BURSTING_ANIMATE_TIME SECONDS, TRUE)
 
@@ -282,13 +289,13 @@
 			span_warning("[src] makes a loud creak as the swelling stops on the verge of bursting, they seem to be holding together for now... (People with bursting prefs disabled are in view!)"),
 			span_warning("You make a loud creak as the swelling momentarily stops as you struggle to hold together... (Someone with bursting prefs disabled is in view!)")
 		)
-		playsound(src.loc, BURSTING_CRESCENDO_DELAY, BURSTING_SOUND_VOLUME, 1, 1, 1.2, ignore_walls = FALSE)
+		playsound(src.loc, BURSTING_CRESCENDO_DELAY, BURSTING_SOUND_VOLUME, 1, 1, 1.2, ignore_walls = FALSE, volume_preference = /datum/preference/numeric/volume/sound_bursting)
 		addtimer(CALLBACK(src, PROC_REF(burst_glutton)), 8.4 SECONDS) //Delay for the duration of the sound
 		return
 
 	var/bursting_pref = get_bursting_pref()
 	if (bursting_pref != BURSTING_PREF_DISABLED) //Do one last check to make sure the player actually wanted it
-		playsound(src.loc, BURSTING_BURST, BURSTING_SOUND_VOLUME, 1, 1, 1.2, ignore_walls = FALSE)
+		playsound(src.loc, BURSTING_BURST, BURSTING_SOUND_VOLUME, 1, 1, 1.2, ignore_walls = FALSE, volume_preference = /datum/preference/numeric/volume/sound_bursting)
 		visible_message(span_warning("[src]'s body lets out a final creak before bursting!"), span_warning("You feel your body let out a creak as the pressure becomes too much before bursting!"))
 
 		//Get the fatness pref again incase it was changed since they burst and use it to determine the reduction so that the player doesn't repeatedly burst
@@ -302,10 +309,7 @@
 					hider_remove(hider)
 
 			//Call the functions used to update fatness and hiders, since hider apply on its own wont update fatness if the hiders are removed
-			fatness = fatness_real
-			hiders_apply()
-			perma_apply()
-			xwg_resize()
+			calculate_fatness()
 
 			//Start removing weight if needed
 			var/weight_target = fatness_bursting_pref * (1 - BURSTING_FATNESS_MIN_THRESHOLD) - BURSTING_BUFFER_REDUCTION
@@ -334,7 +338,7 @@
 
 				//Injure modes
 				if (bursting_pref == BURSTING_PREF_INJURE || bursting_pref == BURSTING_PREF_CRIT)
-					var/bursting_chest_damage = bursting_pref == BURSTING_PREF_INJURE ? 40 : 100 ///40 damage if in injure, 110 if in crit mode
+					var/bursting_chest_damage = bursting_pref == BURSTING_PREF_INJURE ? 40 : 110 ///40 damage if in injure, 110 if in crit mode
 					var/bursting_limb_damage = bursting_pref == BURSTING_PREF_INJURE ? 5 : 10 ///How much damage to do to the limbs if fatness bursting
 					var/bursting_stomach_damage = bursting_pref == BURSTING_PREF_INJURE ? 30 : 100 ///How much damage to do to the stomach when fullness bursting
 
@@ -355,7 +359,7 @@
 
 	//Return their transform back to normal with a short animation
 	SEND_SIGNAL(src, COMSIG_LIVING_BURSTING_BURST) //send signal that player burst to remove pixel shifts
-	var/matrix/original_transform = matrix(dna.current_body_size, 0, 0, 0, dna.current_body_size, 16 * dna.current_body_size - 16)
+	var/matrix/original_transform = matrix(current_size, 0, 0, 0, current_size, 16 * current_size - 16)
 	animate(src, time = 1 SECONDS, transform = original_transform * matrix(lying_angle, MATRIX_ROTATE), easing = SINE_EASING)
 
 //The smoke used for bursting
@@ -384,6 +388,8 @@
 
 #undef BURSTING_PREF_DISABLED
 #undef BURSTING_PREF_SAFE
+#undef BURSTING_PREF_INJURE
+#undef BURSTING_PREF_CRIT
 #undef BURSTING_PREF_FATAL
 #undef BURSTING_PREF_PERMA_FATAL
 
@@ -404,3 +410,5 @@
 #undef BURSTING_FLAVOR_SUPEROBESE
 #undef BURSTING_FLAVOR_EXTREMELYDOUGHY
 #undef BURSTING_FLAVOR_OVERWHELMING_FATNESS
+
+#undef BURSTING_MACRO_CHECK_THRESHOLD

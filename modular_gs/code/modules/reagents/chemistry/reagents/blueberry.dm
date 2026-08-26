@@ -63,10 +63,6 @@ GLOBAL_LIST_INIT(blueberry_about_to_blow_flavour, list(
 	"<span class='danger'>The juice... it's getting...</span>"
 	))
 
-/mob/living/carbon
-	/// How many times have we bursted?
-	var/times_blueberry_bursted = 0
-
 /datum/reagent/blueberry_juice
 	name = "Blueberry Juice"
 	description = "Totally infectious."
@@ -167,6 +163,7 @@ GLOBAL_LIST_INIT(blueberry_about_to_blow_flavour, list(
 			if (!berry.check_prefs_in_view(/datum/preference/toggle/see_bursting, berry.loc))
 				berry.visible_message("<span class='warning'>[berry]'s body creaks loudly. But they seem to be holding on for now... (people with bursting presfs disabled are near)</span>", "<span class='warning'>Your body creaks loudly. But it seem to be holding on for now... (people with bursting presfs disabled are near)</span>")
 				return
+
 			berry.visible_message("<span class='warning'>[berry]'s body creaks loudly. They look ready to burst!</span>", pick(GLOB.blueberry_about_to_blow_flavour))
 			berry.trigger_burst()
 
@@ -215,18 +212,6 @@ GLOBAL_LIST_INIT(blueberry_about_to_blow_flavour, list(
 	mid_sounds = list('modular_gs/sound/effects/inflation/berryloop.ogg')
 	mid_length = 8 SECONDS
 	volume = BLUEBERRY_INFLATION_VOLUME
-
-// Add BB Inflation related stuff to carbon
-/mob/living/carbon
-	var/datum/looping_sound/blueberry_inflation/blueberry_inflate_loop
-
-/mob/living/carbon/Initialize(mapload)
-	. = ..()
-	blueberry_inflate_loop = new(src, FALSE)
-
-/mob/living/carbon/Destroy()
-	QDEL_NULL(blueberry_inflate_loop)
-	return ..()
 
 /**
  * Initiates the burst popup. Giving the player the choice between bursting or delaying.
@@ -360,11 +345,24 @@ GLOBAL_LIST_INIT(blueberry_about_to_blow_flavour, list(
 /datum/effect_system/fluid_spread/smoke/blueberry
 	effect_type = /obj/effect/particle_effect/fluid/smoke/blueberry
 
-// /obj/item/food/meat/steak/troll
-// 	name = "Troll steak"
-// 	desc = "In its sliced state it remains dormant, but once the troll meat comes in contact with stomach acids, it begins a perpetual cycle of constant regrowth and digestion. You probably shouldn't eat this."
-// 	var/hunger_threshold = NUTRITION_LEVEL_FULL
-// 	var/nutrition_amount = 20 // somewhere around 5 pounds
-// 	var/fullness_to_add = 10
-// 	var/message = "<span class='notice'>You feel fuller...</span>" // GS13
-
+#undef BLUEBERRY_INFLATION_VOLUME
+#undef BURST_IMMEDIATELY
+#undef BURST_DELAY
+#undef BURST_CONFIRM
+#undef BURST_ABORT
+#undef BURST_DELAY_SECONDS
+#undef BURST_TIME_TO_BURST
+#undef BLUEBERRY_SPILL_BELLY
+#undef BLUEBERRY_SPILL_PENIS
+#undef BLUEBERRY_SPILL_VAGINA
+#undef BLUEBERRY_SPILL_BREASTS
+#undef BLUEBERRY_SPILL_GENERIC
+#undef BLUEBERRY_SPLASH_BELLY
+#undef BLUEBERRY_SPLASH_PENIS
+#undef BLUEBERRY_SPLASH_VAGINA
+#undef BLUEBERRY_SPLASH_BREASTS
+#undef BLUEBERRY_SPLASH_GENERIC
+#undef BLUEBERRY_SPLASH_AMOUNT_PERCENTAGE
+#undef BLUEBERRY_SPLASH_AMOUNT_MAX
+#undef BLUEBERRY_BURST_SPLASH_RANGE
+#undef BLUEBBERY_BURST_SOUND

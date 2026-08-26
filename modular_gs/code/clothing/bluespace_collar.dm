@@ -7,14 +7,14 @@ GLOBAL_LIST_INIT(stomach_expanding_sounds, list(
 	desc = "A collar containing a miniaturized bluespace whitehole. Other bluespace transmitter collars can connect to this, causing the wearer to receive food from other transmitter collars directly into the stomach. "
 	slot_flags = ITEM_SLOT_NECK
 	var/mob/living/carbon/victim = 0
-	modular_icon_location = 'modular_gs/icons/mob/clothing/cal_collar.dmi'
 	greyscale_colors = "#303030"			// I like this
-	icon = 'modular_gs/icons/mob/clothing/cal_collar.dmi'
-	icon_state = "collar_obj"
-	worn_icon_state = "calorite_collar_wear"
+	icon = 'icons/map_icons/clothing/neck.dmi'
+	icon_state = "/obj/item/clothing/neck/human_petcollar/calorite"
+	worn_icon = 'modular_gs/icons/mob/clothing/cal_collar.dmi'
 	post_init_icon_state = "calorite_collar"
 	greyscale_config = /datum/greyscale_config/calorite_collar
 	greyscale_config_worn = /datum/greyscale_config/calorite_collar/worn
+	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 0.5, /datum/material/calorite = SHEET_MATERIAL_AMOUNT * 1.25, /datum/material/bluespace = SHEET_MATERIAL_AMOUNT * 0.125)
 
 /obj/item/clothing/neck/human_petcollar/locked/bluespace_collar_receiver/Initialize(mapload)
 	. = ..()
@@ -68,12 +68,13 @@ GLOBAL_LIST_INIT(stomach_expanding_sounds, list(
 	var/obj/item/clothing/neck/human_petcollar/locked/bluespace_collar_receiver/linked_receiver = 0
 	modular_icon_location = 'modular_gs/icons/mob/clothing/cal_collar.dmi'
 	greyscale_colors = "#303030"			// I like this
-	icon = 'modular_gs/icons/mob/clothing/cal_collar.dmi'
-	icon_state = "collar_obj"
-	worn_icon_state = "calorite_collar_wear"
+	icon = 'icons/map_icons/clothing/neck.dmi'
+	icon_state = "/obj/item/clothing/neck/human_petcollar/calorite"
+	worn_icon = 'modular_gs/icons/mob/clothing/cal_collar.dmi'
 	post_init_icon_state = "calorite_collar"
 	greyscale_config = /datum/greyscale_config/calorite_collar
 	greyscale_config_worn = /datum/greyscale_config/calorite_collar/worn
+	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 0.5, /datum/material/calorite = SHEET_MATERIAL_AMOUNT * 0.5, /datum/material/bluespace = SHEET_MATERIAL_AMOUNT * 0.25)
 
 /obj/item/clothing/neck/human_petcollar/locked/bluespace_collar_transmitter/Initialize(mapload)
 	. = ..()
@@ -147,7 +148,9 @@ GLOBAL_LIST_INIT(stomach_expanding_sounds, list(
 	var/fraction = 0.3
 	fraction = min(foodstuff.bite_consumption / owner.reagents.total_volume, 1)
 	owner.reagents.trans_to(eater, foodstuff.bite_consumption, transferred_by = feeder, methods = INGEST)
-	eater.hud_used?.hunger?.update_hunger_bar()
+	var/atom/movable/screen/hunger/hunger_bar = eater.hud_used?.screen_objects[HUD_MOB_HUNGER]
+	if (istype(hunger_bar))
+		hunger_bar.update_hunger_bar()
 	foodstuff.bitecount++
 
 	foodstuff.checkLiked(fraction, eater)

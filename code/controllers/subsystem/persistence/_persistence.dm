@@ -7,7 +7,7 @@ SUBSYSTEM_DEF(persistence)
 		/datum/controller/subsystem/mapping,
 		/datum/controller/subsystem/atoms,
 	)
-	flags = SS_NO_FIRE
+	ss_flags = SS_NO_FIRE
 
 	///instantiated wall engraving components
 	var/list/wall_engravings = list()
@@ -73,13 +73,13 @@ SUBSYSTEM_DEF(persistence)
 	load_trophies()
 	load_recent_maps()
 	load_photo_persistence()
-	load_randomized_recipes()
 	load_custom_outfits()
 	load_delamination_counter()
 	load_panic_bunker() //SKYRAT EDIT ADDITION - PANICBUNKER
 	load_tram_counter()
 	load_adventures()
 	load_storyteller_type() //BUBBER EDIT ADD - Storyteller
+	load_gs13_content()	// GS13 EDIT - a proc to handle saving our persistence, so we don't have to do it here
 	return SS_INIT_SUCCESS
 
 ///Collects all data to persist.
@@ -92,6 +92,7 @@ SUBSYSTEM_DEF(persistence)
 	save_scars()
 	save_custom_outfits()
 	save_modular_persistence() // SKYRAT EDIT ADDITION - MODULAR_PERSISTENCE
+	save_gs13_content()	// GS13 EDIT - a proc to handle saving our persistence, so we don't have to do it here
 	save_delamination_counter()
 	save_queued_message_bottles()
 	if(SStransport.can_fire)

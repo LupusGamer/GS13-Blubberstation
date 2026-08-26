@@ -9,9 +9,14 @@
 	icon_state = "bluespace_belt"
 	//inhand_icon_state = "bluespace_belt"
 	slot_flags = ITEM_SLOT_BELT
-	equip_sound = 'modular_gs/sound/items/equip/toolbelt_equip.ogg'
-	drop_sound = 'modular_gs/sound/items/handling/toolbelt_drop.ogg'
-	pickup_sound =  'modular_gs/sound/items/handling/toolbelt_pickup.ogg'
+	equip_sound = 'sound/items/equip/toolbelt_equip.ogg'
+	drop_sound = 'sound/items/handling/toolbelt_drop.ogg'
+	pickup_sound =  'sound/items/handling/toolbelt_pickup.ogg'
+	custom_materials = list(
+		/datum/material/silver = SHEET_MATERIAL_AMOUNT * 0.2,
+		/datum/material/gold = SHEET_MATERIAL_AMOUNT * 0.2,
+		/datum/material/bluespace = SHEET_MATERIAL_AMOUNT * 0.1,
+		)
 	/// is it in the belt slot?
 	var/equipped = FALSE
 	/// are we set to show X amount of BFI, or hide X amount of BFI
@@ -108,6 +113,10 @@
 	cell = null
 	cell_type = null
 	icon_state = "primitive_belt_off"
+	custom_materials = list(
+		/datum/material/iron = SHEET_MATERIAL_AMOUNT * 0.2,
+		/datum/material/silver = SHEET_MATERIAL_AMOUNT * 0.1,
+		)
 
 /obj/item/bluespace_belt/primitive/examine(mob/user)
 	. = ..()
@@ -250,3 +259,6 @@
 
 /obj/item/bluespace_belt/primitive/ui_interact(mob/user, datum/tgui/ui)
 	return
+
+#undef MODE_HIDE_AMOUNT
+#undef MODE_SHOW_AMOUNT

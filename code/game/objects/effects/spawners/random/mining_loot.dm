@@ -29,6 +29,7 @@
 		/obj/item/melee/curator_whip/fattening = 1,
 		/obj/item/clothing/neck/necklace/memento_mori/calori/sprinkled = 1,
 		/obj/item/grenade/chem_grenade/fatmix = 1,
+		/obj/item/book/granter/action/spell/gain = 1,
 		//GS13 EDIT END
 	)
 
@@ -64,7 +65,7 @@
 	icon = 'icons/obj/mining.dmi'
 	icon_state = "modkit"
 	loot = list(
-		/obj/item/borg/upgrade/modkit/aoe/mobs/andturfs = 1,
+		/obj/item/borg/upgrade/modkit/cooldown/aoe/mobs/andturfs = 1,
 		/obj/item/borg/upgrade/modkit/cooldown/repeater = 1,
 		/obj/item/borg/upgrade/modkit/resonator_blasts = 1,
 		/obj/item/borg/upgrade/modkit/bounty = 1,

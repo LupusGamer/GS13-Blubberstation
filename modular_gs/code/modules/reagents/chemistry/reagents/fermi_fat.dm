@@ -29,7 +29,7 @@
 	H_ion_release		= 0.02 		// pH change per 1u reaction (inverse for some reason)
 	rate_up_lim			= 2 		// Optimal/max rate possible if all conditions are perfect
 	purity_min 			= 0.1
-	reaction_flags 		= REACTION_CLEAR_RETAIN
+	// reaction_flags 		= REACTION_CLEAR_RETAIN
 
 //When added
 /datum/reagent/fermi_fat/on_mob_add(mob/living/carbon/M)
@@ -83,7 +83,6 @@
 	affected_carbon.adjust_hunger(1)
 	// affected_carbon.nutrition = max(0, affected_carbon.nutrition-1)
 	if(addiction_mults < 1)
-		// affected_carbon.nutri_mult += 0.5 commenting out since I can't be bothered for now
 		affected_carbon.add_weight_gain_modifier("galbanic", 0.25)
 		addiction_mults = 1
 
@@ -95,7 +94,6 @@
 	affected_carbon.adjust_hunger(2)
 	// affected_carbon.nutrition = max(0, affected_carbon.nutrition-2)
 	if(addiction_mults < 2)
-		// affected_carbon.nutri_mult += 0.5
 		affected_carbon.add_weight_gain_modifier("galbanic", 0.25)
 		addiction_mults = 2
 
@@ -107,14 +105,12 @@
 	affected_carbon.adjust_hunger(4)
 	// affected_carbon.nutrition = max(0, affected_carbon.nutrition-4)
 	if(addiction_mults < 4)
-		// affected_carbon.nutri_mult += 0.5
 		affected_carbon.add_weight_gain_modifier("galbanic", 0.25)
 		addiction_mults = 4
 
 /datum/addiction/fermi_fat/end_withdrawal(mob/living/carbon/carbon)
 	. = ..()
 	if(addiction_mults > 0)
-		// C.nutri_mult = max(1, 0.5 * addiction_mults)
 		carbon.set_weight_gain_modifier("galbanic", 0.25 * addiction_mults)
 
 
@@ -147,7 +143,7 @@
 	H_ion_release		= -0.02		// pH change per 1u reaction (inverse for some reason)
 	rate_up_lim 		= 2 		// Optimal/max rate possible if all conditions are perfect
 	purity_min 			= 0.1
-	reaction_flags 		= REACTION_CLEAR_RETAIN
+	// reaction_flags 		= REACTION_CLEAR_RETAIN
 
 //Effects
 /datum/reagent/fermi_slim/on_mob_life(mob/living/carbon/fatty)

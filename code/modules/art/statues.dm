@@ -28,7 +28,10 @@
 	AddElement(art_type, impressiveness)
 	AddElement(/datum/element/beauty, impressiveness * 75)
 	AddElement(/datum/element/simple_rotation)
-	AddComponent(/datum/component/marionette)
+	// GS13 EDIT adds silverscale tongue
+	//	AddComponent(/datum/component/marionette)
+	if(should_marionette)/// GS13 EDIT
+		AddComponent(/datum/component/marionette) /// GS13 EDIT
 
 /obj/structure/statue/wrench_act(mob/living/user, obj/item/tool)
 	. = ..()
@@ -50,7 +53,7 @@
 /obj/structure/statue/atom_deconstruct(disassembled = TRUE)
 	var/amount_mod = disassembled ? 0 : -2
 	for(var/mat in custom_materials)
-		var/datum/material/custom_material = GET_MATERIAL_REF(mat)
+		var/datum/material/custom_material = SSmaterials.get_material(mat)
 		var/amount = max(0,round(custom_materials[mat]/SHEET_MATERIAL_AMOUNT) + amount_mod)
 		if(amount > 0)
 			new custom_material.sheet_type(drop_location(), amount)
@@ -332,13 +335,16 @@
 	. = ..()
 	AddElement(/datum/element/eyestab)
 	AddElement(/datum/element/wall_engraver)
-	//deals 200 damage to statues, meaning you can actually kill one in ~250 hits
-	AddElement(/datum/element/bane, target_type = /mob/living/basic/statue, damage_multiplier = 40)
+	AddComponent(/datum/component/bane, damage_multiplier = 40, should_bane_callback = CALLBACK(src, PROC_REF(bane_check)), label_text = "statues")
 
 /obj/item/chisel/Destroy()
 	prepared_block = null
 	tracked_user = null
 	return ..()
+
+/// Bane component callback
+/obj/item/chisel/proc/bane_check(mob/living/target)
+	return istype(target, /mob/living/basic/statue)
 
 /*
 Hit the block to start

@@ -5,7 +5,6 @@
 #define TRAIT_NO_MISC "no_misc"
 #define TRAIT_NO_BELT "no_belt"
 #define TRAIT_NO_BACKPACK "no_backpack"
-#define TRAIT_NO_BUCKLE "no_buckle"
 #define TRAIT_DOCILE "docile"
 #define TRAIT_LIVESTOCK "livestock"
 #define TRAIT_NO_FAT_SLOWDOWN "no_fat_slowdown"
@@ -15,6 +14,7 @@
 #define TRAIT_WEAK_LUNGS	"fat_lungs"
 #define TRAIT_LOW_FOV "fat_blocking_view"
 #define TRAIT_VERY_LOW_FOV "fat_blocking_view_HARD"
+#define TRAIT_NEARSIGHTED	"nearsighted_from_weight"
 
 #define TRAIT_RADRESONANCE "radresonance" //FIX THIS LATER
 #define COMSIG_MICRO_PICKUP_FEET "micro_force_grabbed"			//From /datum/element/mob_holder/micro
@@ -66,6 +66,11 @@
 #define TRAIT_HELPLESS_STUCKAGE			"stuckage_helpless"
 #define TRAIT_HELPLESS_THICK_NECK		"thick_neck"
 #define TRAIT_HELPLESS_WEAK_LUNGS		"weak_lungs"
+#define TRAIT_HELPLESS_WADDLING         "waddling_helpless"
+#define TRAIT_WADDLE					"waddle"
+#define TRAIT_HELPLESS_LISP				"lisp_helpless"
+#define TRAIT_LISP						"lisp"
+#define TRAIT_HELPLESS_NEARSIGHTED		"nearsighted_from_weight_helpless"
 
 // GS13 positive quirks
 #define TRAIT_BLOB_BED					"blob_bed"
@@ -87,3 +92,14 @@
 #define TRAIT_ABOUT_TO_BURST "about_to_burst"
 #define TRAIT_NO_BURST "trait_no_burst"
 #define TRAIT_WARNED_ABOUT_BURSTING "trait_burst_warning"
+
+// Illuminated quirk defines
+#define COSGLOW_THICKNESS_MIN 1
+#define COSGLOW_THICKNESS_MAX 3
+#define COSGLOW_THICKNESS_DEFAULT 2
+
+// fatty quirks
+#define FAT_AFFINITY_COOLDOWN				"fatty_examine"
+#define FAT_AFFINITY_ACTIVATION_COOLDOWN	"same_fatty_cooldown"
+#define PLEASANTLY_SOFT_COOLDOWN			"pleasantly_soft_examine"
+#define FAT_AVERSION_COOLDOWN				"fat_aversion"

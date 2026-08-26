@@ -8,7 +8,7 @@
 	attack_verb_continuous = list("licks", "slobbers", "slaps", "frenches", "tongues")
 	attack_verb_simple = list("lick", "slobber", "slap", "french", "tongue")
 	voice_filter = ""
-	organ_traits = list(TRAIT_SPEAKS_CLEARLY)
+	visual = FALSE
 	/**
 	 * A cached list of paths of all the languages this tongue is capable of speaking
 	 *
@@ -31,6 +31,8 @@
 	///for temporary overrides of the above variable.
 	var/temp_say_mod = ""
 
+	/// Whether the owner of this tongue can speak clearly. Being set to FALSE means they mumble and slur things
+	var/speakable_with = TRUE
 	/// Whether the owner of this tongue can taste anything. Being set to FALSE will mean no taste feedback will be provided.
 	var/sense_of_taste = TRUE
 	/// Determines how "sensitive" this tongue is to tasting things, lower is more sensitive.
@@ -52,6 +54,8 @@
 	// - then we cache it via string list
 	// this results in tongues with identical possible languages sharing a cached list instance
 	languages_possible = string_list(get_possible_languages())
+	if(speakable_with)
+		add_organ_trait(TRAIT_SPEAKS_CLEARLY)
 	if(!sense_of_taste)
 		add_organ_trait(TRAIT_AGEUSIA)
 
@@ -155,7 +159,8 @@
 	add_organ_trait(TRAIT_AGEUSIA)
 
 /obj/item/organ/tongue/on_failure_recovery()
-	add_organ_trait(TRAIT_SPEAKS_CLEARLY)
+	if(speakable_with)
+		add_organ_trait(TRAIT_SPEAKS_CLEARLY)
 	if(sense_of_taste)
 		remove_organ_trait(TRAIT_AGEUSIA)
 
@@ -254,9 +259,11 @@
 		return FALSE
 
 	if(isnull(statue))
-		if(feedback)
-			owner.balloon_alert(owner, "you can't seem to statue-ize!")
-		return FALSE // permanently bricked
+		// GS13 EDIT START
+		// if(feedback)
+///			owner.balloon_alert(owner, "you can't seem to statue-ize!")
+///		return FALSE // permanently bricked
+		init_statue() // GS13 EDIT
 	if(owner.stat != CONSCIOUS)
 		if(feedback)
 			owner.balloon_alert(owner, "you're too weak!")
@@ -287,7 +294,9 @@
 	if(is_statue)
 		statue.visible_message(span_danger("[statue] becomes animated!"))
 		owner.forceMove(get_turf(statue))
-		statue.moveToNullspace()
+			// GS13 EDIT START
+			// statue.moveToNullspace()
+		qdel(statue) //GS13 EDIT
 		UnregisterSignal(owner, COMSIG_MOVABLE_MOVED)
 
 	else
@@ -322,9 +331,13 @@
 
 	to_chat(carbon_owner, span_userdanger("Your existence as a living creature snaps as your statue form crumbles!"))
 	carbon_owner.forceMove(get_turf(statue))
-	carbon_owner.dust(just_ash = TRUE, drop_items = TRUE)
-	carbon_owner.investigate_log("has been dusted from having their Silverscale Statue deconstructed / destroyed.", INVESTIGATE_DEATHS)
-
+	// GS13 EDIT START
+	// carbon_owner.dust(just_ash = TRUE, drop_items = TRUE)
+///	carbon_owner.investigate_log("has been dusted from having their Silverscale Statue deconstructed / destroyed.", INVESTIGATE_DEATHS)
+	carbon_owner.adjust_brute_loss(300)
+	// carbon_owner.dust(just_ash = TRUE, drop_items = TRUE)
+	carbon_owner.investigate_log("has been killed from having their Silverscale Statue deconstructed / destroyed.", INVESTIGATE_DEATHS)
+	/// GS13 EDIT END
 	clean_up_statue() // unregister signal before we can do further side effects.
 
 /// Statue was qdeleted outright, do nothing but clear refs.
@@ -433,6 +446,14 @@
 	disliked_foodtypes = NONE
 	// List of english words that translate to zombie phrases
 	var/static/list/english_to_zombie = list()
+	/// Spooky growls we sometimes play while alive
+	var/static/list/spooks = list(
+		'sound/effects/hallucinations/growl1.ogg',
+		'sound/effects/hallucinations/growl2.ogg',
+		'sound/effects/hallucinations/growl3.ogg',
+		'sound/effects/hallucinations/veryfar_noise.ogg',
+		'sound/effects/hallucinations/wail.ogg',
+	)
 
 /obj/item/organ/tongue/zombie/proc/add_word_to_translations(english_word, zombie_word)
 	english_to_zombie[english_word] = zombie_word
@@ -487,6 +508,11 @@
 		message = new_words.Join(" ")
 		message = capitalize(message)
 		speech_args[SPEECH_MESSAGE] = message
+
+/obj/item/organ/tongue/zombie/on_life(seconds_per_tick)
+	. = ..()
+	if(owner.stat == CONSCIOUS && SPT_PROB(2, seconds_per_tick))
+		playsound(owner, pick(spooks), 50, TRUE, 10)
 
 /obj/item/organ/tongue/alien
 	name = "alien tongue"
@@ -566,7 +592,7 @@
 	attack_verb_simple = list("beep", "boop")
 	modifies_speech = TRUE
 	taste_sensitivity = 25 // not as good as an organic tongue
-	organ_traits = list(TRAIT_SPEAKS_CLEARLY, TRAIT_SILICON_EMOTES_ALLOWED)
+	organ_traits = list(TRAIT_SILICON_EMOTES_ALLOWED)
 	voice_filter = "alimiter=0.9,acompressor=threshold=0.2:ratio=20:attack=10:release=50:makeup=2,highpass=f=1000"
 
 /obj/item/organ/tongue/robot/could_speak_language(datum/language/language_path)
@@ -632,7 +658,7 @@
 	say_mod = "meows"
 	liked_foodtypes = SEAFOOD | ORANGES | BUGS | GORE
 	disliked_foodtypes = GROSS | CLOTH | RAW
-	organ_traits = list(TRAIT_SPEAKS_CLEARLY, TRAIT_WOUND_LICKER, TRAIT_FISH_EATER, TRAIT_CARPOTOXIN_IMMUNE)
+	organ_traits = list(TRAIT_WOUND_LICKER, TRAIT_FISH_EATER, TRAIT_CARPOTOXIN_IMMUNE)
 	languages_native = list(/datum/language/nekomimetic)
 	actions_types = list(/datum/action/item_action/organ_action/go_feral)
 	var/feral_mode = FALSE

@@ -3,7 +3,7 @@
 	desc = "These seeds grow into milkmelon plants."
 	icon_state = "seed-milkmelon"
 	species = "milkmelon"
-	plantname = "milk Melon Vines"
+	plantname = "Milk Melon Vines"
 	product = /obj/item/food/grown/milkmelon
 	mutatelist = null
 	reagents_add = list(/datum/reagent/consumable/milk = 0.2)
@@ -54,4 +54,4 @@
 /datum/crafting_recipe/food/knife/milkmelonslice
 	reqs = list(/obj/item/food/grown/milkmelon = 1)
 	result = /obj/item/food/milkmelonslice
-	category = CAT_SALAD
+	category = DISH_SALAD

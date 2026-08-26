@@ -34,11 +34,14 @@
 	metabolization_rate = 2 * REAGENTS_METABOLISM
 
 /datum/reagent/consumable/fizulphite/on_mob_life(mob/living/carbon/M)
-	if(M && M?.client?.prefs?.read_preference(/datum/preference/toggle/weight_gain_chems))
-		M.burpslurring = max(M.burpslurring,50)
-		M.burpslurring += 2
-	else
-		M.burpslurring += 0
+	if (M && M?.client?.prefs?.read_preference(/datum/preference/toggle/weight_gain_chems))
+		M.adjust_burpslurring_effect(3)
+		M.fullness_adjustment += 35
+		if(prob(10))
+			if(prob(75))
+				M.emote("burp")
+			else
+				M.emote("belch")
 	..()
 
 //ANTI-BURPY CHEM
@@ -51,15 +54,9 @@
 	metabolization_rate = 0.8 * REAGENTS_METABOLISM
 
 /datum/reagent/consumable/extilphite/on_mob_life(mob/living/carbon/M)
-	if(M && M?.client?.prefs?.read_preference(/datum/preference/toggle/weight_gain_chems))
-		M.burpslurring -= 3
-	else
-		M.burpslurring -= 0
-
-	if(M.fullness>10)
-		M.fullness -= 6
-	else
-		M.fullness -= 0
+	if (M && M?.client?.prefs?.read_preference(/datum/preference/toggle/weight_gain_chems))
+		if(M.fullness > FULLNESS_LEVEL_BLOATED)
+			M.fullness_adjustment -= 50
 	..()
 
 //FARTY CHEM
@@ -153,16 +150,6 @@
 
 	var/mob/living/carbon/affected_carbon = affected_mob
 	affected_carbon.adjust_fatness(5, FATTENING_TYPE_CHEM)
-
-
-/datum/reagent/consumable/nutriment/on_mob_metabolize(mob/living/affected_mob)
-	. = ..()
-	if(HAS_TRAIT(affected_mob, TRAIT_NUTRICIOUS_BOOST))
-		affected_mob.add_movespeed_modifier(/datum/movespeed_modifier/nutricious_boost/nutriment)
-
-/datum/reagent/consumable/nutriment/on_mob_end_metabolize(mob/living/affected_mob)
-	. = ..()
-	affected_mob.remove_movespeed_modifier(/datum/movespeed_modifier/nutricious_boost/nutriment)
 
 /datum/reagent/consumable/alien_honey	// for use in breasts, doesn't heal nor add sugar
 	name = "Alien Honey"

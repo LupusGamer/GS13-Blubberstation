@@ -8,9 +8,7 @@
 	product_slogans = "Are you hungry? Eat some of my food!;Be sure to eat one of our tasty treats!;Was that your stomach? Go ahead, get some food!"
 	vend_reply = "Enjoy your meal."
 	free = TRUE
-	allow_custom = TRUE
 	products = list(
-
 				/obj/item/food/pizza/margherita = 10,
 				/obj/item/food/butterdog = 6,
 				/obj/item/food/fries = 10,
@@ -94,9 +92,12 @@
 	icon_state = "fattywank"
 	product_slogans = "Fatass."
 	vend_reply = "Pervert."
+	allow_custom = FALSE
 	products = list(
 				/obj/item/melee/curator_whip/fattening = 99,
 				/obj/item/melee/curator_whip/permafattening = 99,
+				/obj/item/pen/calorite = 99,
+				/obj/item/pen/calorite/syndicate = 99,
 				/obj/item/gavelhammer/fattening = 99,
 				/obj/item/gavelhammer/permafattening = 99,
 				/obj/item/gun/energy/fatoray/cannon = 99,
@@ -126,10 +127,41 @@
 				/obj/item/reagent_containers/cup/beaker/flatulose = 99,
 				/obj/item/seeds/lipoplant = 99,
 				/obj/item/food/grown/lipofruit = 99,
+				/obj/item/portable_weight_scanner = 99,
 				)
 
-	refill_canister = /obj/item/vending_refill/mealdor
+	refill_canister = /obj/item/vending_refill/fattywank
 
+/obj/machinery/vending/fatty_items/syndicate
+	name = "Waistline Saboteur Vendor"
+	products = list(
+				/obj/item/melee/curator_whip/fattening = 2,
+				/obj/item/melee/curator_whip/permafattening = 1,
+				/obj/item/gavelhammer/fattening = 2,
+				/obj/item/gavelhammer/permafattening = 1,
+				/obj/item/gun/energy/fatoray/cannon = 1,
+				/obj/item/gun/energy/fatoray = 2,
+				/obj/item/gun/energy/laser/alter_ray/gainrate = 1,
+				/obj/item/gun/energy/laser/alter_ray/noloss = 1,
+				/obj/item/food/burger/greaseburger = 10,
+				/obj/item/clothing/neck/human_petcollar/calorite = 5,
+				/obj/item/clothing/neck/human_petcollar/locked/calorite = 5,
+				/obj/item/clothing/neck/human_petcollar/locked/bluespace_collar_receiver = 2,
+				/obj/item/clothing/neck/human_petcollar/locked/bluespace_collar_transmitter = 2,
+				/obj/item/slimepotion/weightratepotions = 1,
+				/obj/item/stack/sheet/mineral/calorite/ten = 3,
+				/obj/item/reagent_containers/cup/beaker/galbanic = 1,
+				/obj/item/reagent_containers/cup/beaker/lipoifier = 2,
+				/obj/item/reagent_containers/cup/beaker/micro_calorite = 1,
+				/obj/item/dnainjector/fatfang = 2,
+				/obj/item/pen/calorite/syndicate = 4,
+				/obj/item/portable_weight_scanner = 3,
+				)
+
+/obj/item/vending_refill/fattywank
+	machine_name = "Waistline Saboteur Refill"
+	icon = 'modular_gs/icons/obj/vending_restock.dmi'
+	icon_state = "refill_mealdor"
 
 //gato merch vendor
 /obj/machinery/vending/gato_merch

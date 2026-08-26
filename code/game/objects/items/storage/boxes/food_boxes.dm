@@ -180,7 +180,7 @@
 			/obj/item/food/grown/apple,
 			/obj/item/food/grown/banana,
 			/obj/item/food/grown/cabbage,
-			/obj/item/food/grown/carrot,
+			/obj/item/food/grown/carrotlike/carrot,
 			/obj/item/food/grown/cherries,
 			/obj/item/food/grown/chili,
 			/obj/item/food/grown/corn,
@@ -218,7 +218,7 @@
 
 /obj/item/storage/box/ingredients/vegetarian/PopulateContents()
 	for(var/i in 1 to 2)
-		new /obj/item/food/grown/carrot(src)
+		new /obj/item/food/grown/carrotlike/carrot(src)
 	new /obj/item/food/grown/apple(src)
 	new /obj/item/food/grown/corn(src)
 	new /obj/item/food/grown/eggplant(src)
@@ -244,7 +244,7 @@
 		new /obj/item/food/grown/citrus/orange(src)
 	new /obj/item/food/grown/citrus/lemon(src)
 	new /obj/item/food/grown/citrus/lime(src)
-	new /obj/item/food/grown/watermelon(src)
+	new /obj/item/food/grown/melonlike/watermelon(src)
 
 /obj/item/storage/box/ingredients/sweets
 	theme_name = "sweets"
@@ -316,7 +316,7 @@
 
 /obj/item/storage/box/ingredients/salads/PopulateContents()
 	new /obj/item/food/grown/cabbage(src)
-	new /obj/item/food/grown/carrot(src)
+	new /obj/item/food/grown/carrotlike/carrot(src)
 	new /obj/item/food/grown/olive(src)
 	new /obj/item/food/grown/onion/red(src)
 	new /obj/item/food/grown/onion/red(src)
@@ -596,3 +596,15 @@
 	name = "robusta beans"
 	desc = "A bag containing fresh, dry coffee robusta beans. Ethically sourced and packaged by Waffle Corp."
 	beantype = /obj/item/food/grown/coffee/robusta
+
+/obj/item/storage/box/ramen_beef
+	name = "beef space ramen"
+	desc = "A box containing a brick of dehydrated ramen and a beef flavour sachet."
+	icon_state = "ramen_box"
+	illustration = null
+	storage_type = /datum/storage/box/ramen_beef
+	w_class = WEIGHT_CLASS_SMALL //it's meant to come in packs of five and the box can only hold two items, beef flavour or dry ramen
+
+/obj/item/storage/box/ramen_beef/PopulateContents()
+	new /obj/item/reagent_containers/condiment/pack/beef_flavour(src)
+	new /obj/item/food/spaghetti/ramen_dry(src)

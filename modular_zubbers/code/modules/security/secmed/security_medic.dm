@@ -41,6 +41,17 @@
 	)
 	rpg_title = "Battle Cleric"
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_REOPEN_ON_ROUNDSTART_LOSS | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN
+	
+	sec_antag_cap = 1.25
+	banned_quirks = list(SEC_RESTRICTED_QUIRKS)
+	alt_titles = list(
+		"Security Medic",
+		"Field Medic",
+		"Security Corpsman",
+		"Brig Physician",
+		"Combat Medic",
+		"Special Operations Medic",
+	)
 
 /datum/outfit/job/security_medic
 	name = "Security Medic"
@@ -53,11 +64,11 @@
 	suit_store = /obj/item/flashlight/seclite
 	belt = /obj/item/modular_computer/pda/security
 	ears = /obj/item/radio/headset/headset_medsec
-	uniform = /obj/item/clothing/under/rank/security/security_medic
+	uniform = /obj/item/clothing/under/rank/security/peacekeeper/security_medic
 	gloves = /obj/item/clothing/gloves/latex/nitrile
 	shoes = /obj/item/clothing/shoes/jackboots/sec
 	glasses = /obj/item/clothing/glasses/hud/medsechud
-	suit = /obj/item/clothing/suit/armor/vest/security_medic
+	suit = /obj/item/clothing/suit/armor/vest/peacekeeper/security_medic
 	l_hand = /obj/item/storage/medkit/brute
 	head = /obj/item/clothing/head/beret/sec/security_medic
 	backpack = /obj/item/storage/backpack/security
@@ -120,14 +131,12 @@
 /obj/item/storage/bag/garment/secmed/PopulateContents()
 	. = ..()
 	new /obj/item/clothing/suit/toggle/labcoat/skyrat/security_medic(src)
-	new /obj/item/clothing/suit/toggle/labcoat/skyrat/security_medic/blue(src)
 	new /obj/item/clothing/suit/hazardvest/security_medic(src)
-	new /obj/item/clothing/suit/hazardvest/security_medic/blue(src)
-	new /obj/item/clothing/head/helmet/sec/security_medic(src)
+	new /obj/item/clothing/head/helmet/sec/peacekeeper/security_medic(src)
 	new /obj/item/clothing/under/rank/medical/scrubs/skyrat/red/sec(src)
-	new /obj/item/clothing/under/rank/security/security_medic/alternate(src)
-	new /obj/item/clothing/under/rank/security/security_medic(src)
-	new /obj/item/clothing/under/rank/security/security_medic/skirt(src)
+	new /obj/item/clothing/under/rank/security/peacekeeper/security_medic/alternate(src)
+	new /obj/item/clothing/under/rank/security/peacekeeper/security_medic(src)
+	new /obj/item/clothing/under/rank/security/peacekeeper/security_medic/skirt(src)
 
 /obj/structure/closet/secure_closet/security_medic
 	name = "security medic's locker"

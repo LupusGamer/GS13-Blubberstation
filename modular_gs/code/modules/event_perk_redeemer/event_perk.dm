@@ -110,7 +110,7 @@ GLOBAL_DATUM(event_perk_tgui_holder, /datum/event_perk)
 	
 	fdel(file_path)
 
-/datum/event_perk/proc/copy(var/datum/event_perk/perk)
+/datum/event_perk/proc/copy(datum/event_perk/perk)
 	src.name = perk.name
 	src.description = perk.description
 	src.expiry_date = perk.expiry_date
@@ -155,7 +155,7 @@ GLOBAL_DATUM(event_perk_tgui_holder, /datum/event_perk)
 			for (var/item in selected_perk.items)
 				var/obj/item/current_item = item
 				var/item_name = current_item::name
-				var/item_amount = items[item]
+				var/item_amount = selected_perk.items[item]
 				var/list/list_entry = list(
 					"name" = item_name, 
 					"amount" = item_amount
@@ -210,11 +210,7 @@ GLOBAL_DATUM(event_perk_tgui_holder, /datum/event_perk)
 		else 
 			message_admins("Error loading event perk from file: '[file_path]'. Inform coders. And provide them with plenty of info.")
 
-/mob/living/verb/redeem_event_perk()
-	set category = "OOC"
-	set name = "Redeem event perk"
-	set desc = "Redeem an event perk for an event you participated in."
-
+GAME_VERB_DESC(/mob/living, redeem_event_perk, "Redeem event perk", "Redeem an event perk for an event you participated in.", "OOC")
 	GLOB.event_perk_tgui_holder.ui_interact(src)
 
 // -----------------------ADMIN SHIT--------------------------------
@@ -454,5 +450,6 @@ ADMIN_VERB(event_perk_manager, R_ADMIN, "Event Perk Manager", "Create a new Even
 
 	update_static_data(usr)
 
+#undef EVENT_PERK_JSON_FOLDER
 #undef CAN_REDEEM
 #undef CAN_NOT_REDEEM

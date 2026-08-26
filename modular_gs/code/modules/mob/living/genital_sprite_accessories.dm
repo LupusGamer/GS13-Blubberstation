@@ -1,42 +1,44 @@
-/datum/sprite_accessory/genital/butt
+// /datum/sprite_accessory/genital/butt
+// 	icon = 'modular_gs/icons/mob/human/genitals/butt.dmi'
+// 	organ_type = /obj/item/organ/genital/butt
+// 	associated_organ_slot = ORGAN_SLOT_BUTT
+// 	key = ORGAN_SLOT_BUTT
+// 	color_src = USE_ONE_COLOR
+// 	always_color_customizable = TRUE
+// 	has_skintone_shading = TRUE
+// 	relevent_layers = list(BODY_FRONT_LAYER)
+
+// /datum/sprite_accessory/genital/butt/none
+// 	icon_state = "none"
+// 	name = SPRITE_ACCESSORY_NONE
+// 	factual = FALSE
+// 	color_src = null
+
+/datum/sprite_accessory/genital/butt/pair_gs
 	icon = 'modular_gs/icons/mob/human/genitals/butt.dmi'
-	organ_type = /obj/item/organ/genital/butt
-	associated_organ_slot = ORGAN_SLOT_BUTT
-	key = ORGAN_SLOT_BUTT
-	color_src = USE_ONE_COLOR
-	always_color_customizable = TRUE
-	has_skintone_shading = TRUE
-	relevent_layers = list(BODY_FRONT_LAYER)
+	icon_state = "pair_gs"
+	name = "Pair (Gain Station)" //a pair of buns i guess
 
-/datum/sprite_accessory/genital/butt/none
-	icon_state = "none"
-	name = SPRITE_ACCESSORY_NONE
-	factual = FALSE
-	color_src = null
+// /datum/sprite_accessory/genital/belly
+// 	icon = 'modular_gs/icons/mob/human/genitals/belly.dmi'
+// 	organ_type = /obj/item/organ/genital/belly
+// 	associated_organ_slot = ORGAN_SLOT_BELLY
+// 	key = ORGAN_SLOT_BELLY
+// 	color_src = USE_ONE_COLOR
+// 	always_color_customizable = TRUE
+// 	has_skintone_shading = TRUE
+// 	relevent_layers = list(BODY_FRONT_LAYER, BODY_BEHIND_LAYER)
 
-/datum/sprite_accessory/genital/butt/pair
-	icon_state = "pair"
-	name = "Pair" //a pair of buns i guess
+// /datum/sprite_accessory/genital/belly/none
+// 	icon_state = "none"
+// 	name = SPRITE_ACCESSORY_NONE
+// 	factual = FALSE
+// 	color_src = null
 
-/datum/sprite_accessory/genital/belly
+/datum/sprite_accessory/genital/belly/normal_gs
 	icon = 'modular_gs/icons/mob/human/genitals/belly.dmi'
-	organ_type = /obj/item/organ/genital/belly
-	associated_organ_slot = ORGAN_SLOT_BELLY
-	key = ORGAN_SLOT_BELLY
-	color_src = USE_ONE_COLOR
-	always_color_customizable = TRUE
-	has_skintone_shading = TRUE
-	relevent_layers = list(BODY_FRONT_LAYER, BODY_BEHIND_LAYER)
-
-/datum/sprite_accessory/genital/belly/none
-	icon_state = "none"
-	name = SPRITE_ACCESSORY_NONE
-	factual = FALSE
-	color_src = null
-
-/datum/sprite_accessory/genital/belly/normal
 	icon_state = "belly"
-	name = "Belly"
+	name = "Belly (GainStation)"
 
 /datum/sprite_accessory/genital/belly/round
 	icon = 'modular_gs/icons/mob/human/genitals/belly_round.dmi'
@@ -52,3 +54,13 @@
 	icon = 'modular_gs/icons/mob/human/genitals/belly_smooth_noarms.dmi'
 	icon_state = "smoothnoarms"
 	name = "Smooth Belly (No Nipples/Bellybutton/Arms)"
+
+/datum/sprite_accessory/genital/belly/belly_teshari
+	icon = 'modular_gs/icons/mob/human/genitals/teshbelly.dmi'
+	icon_state = "teshbelly"
+	name = "Teshari Belly (Teshari Only)"
+
+/datum/sprite_accessory/genital/butt/butt_teshari
+	icon = 'modular_gs/icons/mob/human/genitals/teshbutt.dmi'
+	icon_state = "teshbutt"
+	name = "Teshari Butt (Teshari Only)"
